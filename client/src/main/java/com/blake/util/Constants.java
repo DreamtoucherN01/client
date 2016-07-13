@@ -17,5 +17,5 @@ public class Constants {
 	
 	public static String twitterParams = "count=2&since_id=240247560269340670";
 	
-	public static String serverUrl = "http://127.0.0.1:8080/server/api/request"; 
+	public static String serverUrl = "http://202.114.107.225:8080/server/api/request"; 
 }

@@ -1,17 +1,16 @@
 package com.blake.reptile;
 
 import net.sf.json.JSONObject;
-
-import com.blake.util.Constants;
-import com.blake.util.HttpRequest;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
 import twitter4j.json.DataObjectFactory;
+
+import com.blake.util.Constants;
+import com.blake.util.HttpRequest;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
 @SuppressWarnings("deprecation")
 public class StreamStatusListener implements StatusListener{
@@ -33,7 +32,7 @@ public class StreamStatusListener implements StatusListener{
 	        jo.put("body", dbObject.toString());
             
             HttpRequest.sendPost(Constants.serverUrl, jo.toString());
-            System.out.println(dbObject.get("text"));  
+            System.out.println("data source from stream : " + dbObject.get("text"));  
         }  catch (Exception e) {  
             e.printStackTrace();  
         }   
