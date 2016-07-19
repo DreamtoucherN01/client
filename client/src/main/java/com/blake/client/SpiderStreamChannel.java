@@ -8,10 +8,9 @@ import twitter4j.conf.ConfigurationBuilder;
 import com.blake.reptile.StreamStatusListener;
 import com.blake.util.Constants;
 
-public class SpiderStreamChannel implements Runnable {
+public class SpiderStreamChannel  implements Runnable {
 
 
-	@Override
 	public void run() {
 
 		

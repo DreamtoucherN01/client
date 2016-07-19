@@ -8,7 +8,6 @@ import com.blake.util.Constants;
 
 public class SpiderTopicChannel  implements Runnable {
 
-	@Override
 	public void run() {
 
 		
@@ -19,11 +18,18 @@ public class SpiderTopicChannel  implements Runnable {
        	.setOAuthAccessToken(Constants.accessToken)  
        	.setOAuthAccessTokenSecret(Constants.accessTokenKey);  
 		 cb.setJSONStoreEnabled(true);
+		
 		 
-		String key = "fort mcmurray fire";
 		String sinceDate = "2016-02-01";
+		String []topicKey = {"fort mcmurray fire"};
+		
 //		String endDate = "2016-02-01";
-		new PeriodSearch(cb).search(key, 100, sinceDate, null);
+		System.out.println("topic channel open now");
+		for(int i = 0; i < topicKey.length ; i++) {
+			
+			new PeriodSearch(cb).search(topicKey[i], Integer.MAX_VALUE, sinceDate, null);
+		}
+		
 	}
 
 }

@@ -3,8 +3,13 @@ package com.blake.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import com.blake.util.Constants;
 import com.blake.util.HttpRequest;
+import com.google.gson.Gson;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
 import twitter4j.Query;
 import twitter4j.Query.ResultType;
@@ -27,19 +32,16 @@ public class PeriodSearch implements Search {
 		twitter = new TwitterFactory(cb.build()).getInstance();
 	}
 
-	@Override
 	public <T> List<T> search(String key) {
 
 		return search(key,100,null);
 	}
 
-	@Override
 	public <T> List<T> search(String key, int count, String sinceDate) {
 
 		return search(key,count, sinceDate, null);
 	}
 
-	@Override
 	public <T> List<T> search(String key, int count, String sinceDate,
 			String endDate) {
 
@@ -65,6 +67,7 @@ public class PeriodSearch implements Search {
                 
             } while ((query = result.nextQuery()) != null);
         } catch (TwitterException te) {
+        	
             te.printStackTrace();
         }
        
@@ -75,12 +78,18 @@ public class PeriodSearch implements Search {
 
 		for (Status tweet : tweets) {
 			
-//			HttpRequest.sendPost(Constants.serverUrl, tweet.toString());
-			System.out.println("data source from stream : " + tweet.getText()); 
+			Gson gson=new Gson();
+		    DBObject dbObject = (DBObject) JSON.parse(gson.toJson(tweet));
+		    
+		    JSONObject jo = new JSONObject();
+	        jo.put("type", "insert");
+	        jo.put("body", dbObject.toString());
+		    
+		    HttpRequest.sendPost(Constants.serverUrl, jo.toString());
+			System.out.println("data source from topic : " + dbObject); 
 		}
 	}
 
-	@Override
 	public List<String> res2String(List<Status> tweets) {
 		
 		List<String> infos=new ArrayList<String>();
@@ -91,7 +100,6 @@ public class PeriodSearch implements Search {
 		return infos;
 	}
 
-	@Override
 	public <T> List<T> search(String key, int count) {
 		// TODO Auto-generated method stub
 		return null;
